@@ -73,3 +73,4 @@ public class CarEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "car")
     private Set<ReviewEntity> reviews = new HashSet<>();
+}
