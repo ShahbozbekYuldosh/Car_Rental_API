@@ -1,40 +1,22 @@
 package com.carrental.entity;
 
-import com.carrental.enums.PaymentMethod;
-import com.carrental.enums.PaymentStatus;
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Table(name = "payments")
+@Table(name = "payment")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class PaymentEntity extends BaseEntity {
+public class PaymentEntity {
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booking_id", nullable = false)
-    private BookingEntity booking;
+    @EmbeddedId
+    private PaymentId id;
 
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal amount;
+    private Integer paymentAmount;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private PaymentMethod method;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private PaymentStatus status = PaymentStatus.PENDING;
-
-    private String transactionId;
-
-    private LocalDateTime paidAt;
-
-    private String paymentGatewayResponse;
+    @MapsId("rentId")
+    @ManyToOne
+    @JoinColumn(name = "rent_id")
+    private RentEntity rent;
 }
